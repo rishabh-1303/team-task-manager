@@ -39,13 +39,13 @@ const Dashboard = () => {
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((t) => t.status === 'Completed').length;
   const inProgressTasks = tasks.filter((t) => t.status === 'In Progress').length;
-  const todoTasks = tasks.filter((t) => t.status === 'To Do').length;
+  const overdueTasks = tasks.filter((t) => t.dueDate && new Date(t.dueDate) < new Date() && t.status !== 'Completed').length;
 
   const stats = [
     { name: 'Total Tasks', value: totalTasks, icon: ListTodo, color: 'text-blue-600', bg: 'bg-blue-100' },
     { name: 'Completed', value: completedTasks, icon: CheckCircle, color: 'text-green-600', bg: 'bg-green-100' },
     { name: 'In Progress', value: inProgressTasks, icon: Clock, color: 'text-yellow-600', bg: 'bg-yellow-100' },
-    { name: 'To Do', value: todoTasks, icon: AlertCircle, color: 'text-red-600', bg: 'bg-red-100' },
+    { name: 'Overdue', value: overdueTasks, icon: AlertCircle, color: 'text-red-600', bg: 'bg-red-100' },
   ];
 
   return (
