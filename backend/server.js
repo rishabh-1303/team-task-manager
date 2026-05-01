@@ -32,6 +32,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 
+// Vercel fallback (in case Vercel strips the /api prefix)
+app.use('/auth', authRoutes);
+app.use('/projects', projectRoutes);
+app.use('/tasks', taskRoutes);
+
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
