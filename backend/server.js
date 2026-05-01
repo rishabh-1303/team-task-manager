@@ -14,6 +14,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Database Connection Middleware for Serverless
+app.use(async (req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    try {
+      await connectDB();
+    } catch (error) {
+      console.error('Database connection failed:', error);
+      return res.status(500).json({ message: 'Database connection failed', error: error.message });
+    }
+  }
+  next();
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
@@ -41,8 +54,6 @@ if (process.env.NODE_ENV !== 'production') {
       console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
     });
   });
-} else {
-  connectDB();
 }
 
 export default app;
