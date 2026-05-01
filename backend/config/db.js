@@ -3,6 +3,11 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 
 export const connectDB = async () => {
   try {
+    if (mongoose.connection.readyState >= 1) {
+      console.log('Using existing MongoDB connection');
+      return;
+    }
+
     let mongoUri = process.env.MONGO_URI;
 
     // Fallback to memory server if running locally without a real DB setup
